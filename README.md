@@ -18,12 +18,20 @@
                                     ↑_________|
 ```
 
+## requirements
+langgraph
+python
+langchain_openai
+dotenv
+os
+typing
+
 ## 配置
 
-复制配置文件并编辑：
+自行创建.env文件：
 
 ```bash
-cp .env.example .env
+touch .env
 ```
 
 编辑 `.env` 文件：
@@ -36,8 +44,9 @@ DEFAULT_MODEL=gpt-4
 MAX_ITERATIONS=3
 ```
 
-```
+**extra**：可以在.env文件中加入langsmith用于监控输出结果
 
+```
 ## 使用示例
 
 ### 自动创建角色（推荐）
