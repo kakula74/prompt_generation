@@ -18,12 +18,6 @@
                                     ↑_________|
 ```
 
-## 安装
-
-```bash
-pip install -r requirements.txt
-```
-
 ## 配置
 
 复制配置文件并编辑：
