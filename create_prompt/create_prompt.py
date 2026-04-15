@@ -629,8 +629,15 @@ def optimization_loop(agent, result):
             show_result(result)
 
         elif choice == "2":
-            print("\n请输入补充需求：")
-            feedback = input("> ").strip()
+            print("\n请输入补充需求（支持多行输入，输入空行结束）：")
+            lines = []
+            while True:
+                line = input("> " if not lines else "  ")
+                if not line:  # 空行表示结束
+                    break
+                lines.append(line)
+
+            feedback = "\n".join(lines).strip()
             if feedback:
                 result = agent.refine_with_feedback(result, feedback, max_iterations=2)
                 show_result(result)
@@ -682,8 +689,15 @@ def interactive_mode():
     print("🤖 提示词创建Agent - 交互式模式")
     print("=" * 60)
 
-    print("\n请描述您的提示词需求：")
-    requirement = input("> ").strip()
+    print("\n请描述您的提示词需求（支持多行输入，输入空行结束）：")
+    lines = []
+    while True:
+        line = input("> " if not lines else "  ")
+        if not line:  # 空行表示结束
+            break
+        lines.append(line)
+
+    requirement = "\n".join(lines).strip()
 
     if not requirement:
         print("❌ 需求不能为空")
@@ -772,30 +786,17 @@ if __name__ == "__main__":
         print("🚀 开始创建提示词...\n")
 
         result = agent.create_prompt(args.requirement, auto_create_role=True)
+        show_result(result)
 
-        # 显示结果
-        print("\n" + "=" * 60)
-        print("✨ 生成的提示词：")
-        print("=" * 60)
-        print(result["prompt"])
-        print("\n" + "=" * 60)
-        print("📊 评估结果：")
-        eval_result = result['evaluation']
-        print(f"总分：{eval_result.get('total_score', 'N/A')}/40")
-        print(f"  - 明确性：{eval_result.get('clarity_score', 'N/A')}/10")
-        print(f"  - 结构性：{eval_result.get('structure_score', 'N/A')}/10")
-        print(f"  - 简洁性：{eval_result.get('conciseness_score', 'N/A')}/10")
-        print(f"  - 可执行性：{eval_result.get('executability_score', 'N/A')}/10")
-        print(f"迭代次数：{result['iterations']}")
-        print(f"提示词长度：{len(result['prompt'])}字")
-        print("=" * 60)
-
-        # 保存到文件
-        output_file = args.output or "prompt.txt"
-        with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(result["prompt"])
-        print(f"\n✅ 已保存到 {output_file}")
-        print("\n🎉 完成！")
+        # 如果指定了输出文件，直接保存；否则进入优化循环
+        if args.output:
+            with open(args.output, 'w', encoding='utf-8') as f:
+                f.write(result["prompt"])
+            print(f"\n✅ 已保存到 {args.output}")
+            print("\n🎉 完成！")
+        else:
+            result = optimization_loop(agent, result)
+            print("\n🎉 完成！")
     else:
         # 没有参数，显示帮助
         parser.print_help()
