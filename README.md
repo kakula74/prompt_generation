@@ -40,7 +40,7 @@ touch .env
 # 基础配置
 OPENAI_API_KEY=your-api-key-here
 OPENAI_BASE_URL=https://api.openai.com/v1
-DEFAULT_MODEL=gpt-4
+MODEL=gpt-4
 MAX_ITERATIONS=3
 ```
 
