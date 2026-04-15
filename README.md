@@ -19,12 +19,12 @@
 ```
 
 ## requirements
-langgraph
-python
-langchain_openai
-dotenv
-os
-typing
+langgraph>=0.0.20
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-core>=0.1.0
+openai>=1.0.0
+python-dotenv>=1.0.0
 
 ## 配置
 
